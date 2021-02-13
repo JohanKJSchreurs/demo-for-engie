@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="{{ url_for('home') }}">home</a></li>
+        <li><a href="{{ url_for('listpersons') }}">Select a name</a></li>
+        <li><a href="{{ url_for('admin') }}">Admin</a></li>
+
+    </ul>
+</nav>
+<div id="content">
+{% block content %}
+{% endblock %}
+</div>
+</body>
+</html>
