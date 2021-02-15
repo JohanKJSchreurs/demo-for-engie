@@ -100,6 +100,8 @@ def helloworldcli(person_id):
         
     return 0
 
+app.cli.add_command(helloworldcli)
+
 
 @click.command(
     "add-demo-persons", 

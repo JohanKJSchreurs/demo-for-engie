@@ -33,9 +33,6 @@ def init_db_command():
 
 def init_app(app):
     """Initialize the database using the app's cofiguration.""" 
-
-    print(app.config["SQLALCHEMY_DATABASE_URI"])
     db.init_app(app)
-    
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
