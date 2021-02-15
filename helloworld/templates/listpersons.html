@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header>
+    <h1>Some people you can say hello to:</h1>
+</header>
+
+<ul>
+{% for p in persons %}
+    <li>
+        <a href="{{ url_for('hello', id=p.id) }}">{{p.firstname}} {{p.lastname}}</a>
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -8,15 +8,20 @@
 <body>
 <nav>
     <ul>
-        <li><a href="{{ url_for('home') }}">home</a></li>
-        <li><a href="{{ url_for('listpersons') }}">Select a name</a></li>
-        <li><a href="{{ url_for('admin') }}">Admin</a></li>
-
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('listpersons') }}">List of people</a></li>
+        <li><a href="{{ url_for('admin.index') }}">Admin</a></li>
     </ul>
 </nav>
-<div id="content">
+<section class="content">
+
+{% for message in get_flashed_messages() %}
+<div class="flash">{{ message }}</div>
+{% endfor %}
+
 {% block content %}
 {% endblock %}
-</div>
+
+</section>
 </body>
 </html>
