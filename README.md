@@ -26,42 +26,6 @@ The person objects have the following fields:
 - a firstname which is a mandatory column/field,
 - an optional lastname field.
 
-## Command line tool to display "hello <name>" message
-
-```bash
-flask helloworldcli
-```
-
-There is a command line tool to display the greeting message for a specified 
-person ID. This tools is integrate as a Flask CLI command
-
-If the web application is up and running with Docker then the simplest way
-to run the flask command is like so
-
-To list all flask CLI commands:
-
-```bash
-docker exec -ti demo-for-engie_web_1 flask
-```
-
-## Commands to initialize a database (not needed for PostgreSQL)
-
-There are two other commands to help set up a database, but the PostgreSQL 
-database is initialized with some scripts in its Docker container
-You only need those commands if you would choose another database, 
-for example if you use sqlite for some local testing. 
-
-## Containers: Flask, Postgres and Adminer
-
-- The Flask app is reachable on localhost on port 5000
-- The PostgreSQL is reachable on localhost on port 5432
-- We have Adminer as a web GUI for postgres, on port 8080
-
-## Documentation: Markdown and MkDocs
-
-Markdown documentation is converted to HTML with [MkDocs](https://www.mkdocs.org/).
-
-
 ## Documentation
 
 See [docs/index.md](docs/index.md)

@@ -58,7 +58,7 @@ Hello, Demo user Bob Smith
 > Note re: Container name `demo-for-engie_web_1`
 >
 > Note that the name of the docker container here is `demo-for-engie_web_1` which
-is the default name `docker-compost up` has generated.
+is the default name that `docker-compose up` has generated.
 >
 >To see what the names of your running containers are, check with `docker ps` and look for the one where the COMMAND is "flask run".
 
@@ -79,9 +79,7 @@ bfa7dc9f4341   demo-for-engie_web        "flask run"              45 minutes ago
 This requires a bit more setup.
 This page describes how to set up the virtualenv and how to configure the app
 outside without Docker, locally:
-[local-installation/](local-installation/)
-
-
+[docs/local-installation.md](docs/local-installation.md)
 
 ## Commands to initialize a database (not needed for PostgreSQL)
 
@@ -100,8 +98,7 @@ let you create the person table, and insert two demo persons into it, respective
 - `flask init-db`: Creates the person table
 - `flask add-demo-persons`  Add two users to start the demo: Bob and Alice.
 
-
-### all commands available in the flask CLI
+### All commands available in the flask CLI
 
 ```
 Commands:
@@ -116,7 +113,15 @@ Commands:
   shell             Run a shell in the app context.
 ```
 
-## Containers: Flask, Postgres and Adminer
+## Docker deployment
+
+For deployment we use Docker Docker compose.
+This gives us a decent basis to deploy the app somewhere in the cloud (AWS, GCP, Heroko ...)
+
+But for the moment I don't have the knowledge to deploy it on those platforms (yet). 
+So I will leave that out for now. Perhaps if I have time at the end I will try to deploy the demo after all.
+
+### Containers: Flask, Postgres and Adminer
 
 - The Flask app is reachable on localhost on port 5000
 - The PostgreSQL is reachable on localhost on port 5432
@@ -126,20 +131,6 @@ Commands:
 
 Markdown documentation is converted to HTML with [MkDocs](https://www.mkdocs.org/).
 
-
-## Docker deployment
-
-For deployment we use Docker Docker compose.
-This gives us a decent basis to deploy the app somewhere in the cloud (AWS, GCP, Heroko ...)
-
-But for the moment I don't have the knowledge to deploy it on those platforms (yet). 
-So I will leave that out for now. Perhaps if I have time at the end I will try to deploy the demo after all.
-
-What you find in this manual
-
-- Installation instructions
-- How to launch the application
-
 ## Project structure
 
 - docs: the documentation
@@ -148,4 +139,3 @@ What you find in this manual
 - scripts: some tools to help with launching the app, and tools for development.
 - two dockerfiles and a docker-compose.yml file
 - requirements.txt for installing python dependencies with pip
-
