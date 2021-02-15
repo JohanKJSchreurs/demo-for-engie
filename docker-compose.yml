@@ -6,21 +6,42 @@ services:
     build: .
     ports:
       - "5000:5000"
-    # volumes:
-    #   - .:/code
+    
+    # For development we use a volume that links the folder where 
+    # we edit our source code into the container so we can test 
+    # modifications without restarting.
+    #
+    # For production I would prefer copying the files into the 
+    # containers /app directory, or perhaps pip installing with a setup.py file.
+    volumes:
+      - .:/app
+    
+    # In production FLASK_ENV needs to be production
+    # We should use a proper web server too, but I just have limited time 
+    # to finish this and I would need to research the proper way to it set up.
+    #
+    # We could probably use GUnicorn to run the Flask part in this container 
+    # and then put a proxy such as ngnix in front of it with a second container.
     environment:
+      #FLASK_ENV: production
       FLASK_ENV: development
+    
     depends_on:
       - postgres
     
   postgres:
-    image: postgres
+    build: 
+      context: .
+      dockerfile: postgres.dockerfile
+    #image: postgres:13.2
     restart: always
     environment:
       POSTGRES_PASSWORD: example
     ports:
       - 5432:5432
-  
+    volumes:
+      - .:/code
+      
   adminer:
     image: adminer
     restart: always
@@ -28,5 +49,5 @@ services:
       - 8080:8080
     depends_on: 
       - postgres
-
+  
       

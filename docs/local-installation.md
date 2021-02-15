@@ -44,3 +44,53 @@ This file is located at the root folder of the project, in other words at the ro
     python -m pip install -r requirements.txt
 
 
+## setup your config file
+
+We have an example file that you can copy to the instance folder.
+
+This is in fact what the Dockerfile for the flask container does.
+
+In the root of your project / your git repo, copy `the file 
+
+    example-config\example_config.py
+
+to:
+
+    instance\config.py
+
+Here are corresponding commands for the command line:
+
+**Windows:**
+
+    copy example-config\example_config.py instance\config.py
+
+**Linux:**
+
+    cp example-config\example_config.py instance\config.py
+
+## create the database tables
+
+I have added a command the Flask CLI to create the database tables easily.
+
+    flask init-db
+
+Optionally, you can also add two demo users to get you started, with this command:
+
+    flask add-demo-persons
+
+This adds the following persons:
+
+- firstname: 'Demo user Bob', lastname: 'Smith'
+- firstname: 'Demo user Alice', lastname: null (deliberately, so we can test with a lastname that is null)
+
+
+It is safe to run `flask add-demo-users` multiple times (which can happen by accident). 
+The users will only be created if it does not exist yet (The check is based on their first name)
+
+As usual, you can see all the available flask commands by running
+
+    flask
+
+Or
+
+    flask --help

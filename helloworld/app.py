@@ -1,3 +1,5 @@
+import os
+
 import click
 from flask.cli import with_appcontext
 
@@ -46,13 +48,12 @@ def home():
 def hello(id):
 
     if person_id_exists(id):
-        # name = get_full_name_for_id(id)
-        # return render_template("hello.html", name=name)
         person = get_person_by_id(id)
         return render_template("hello.html", greeting=get_greeting(person))
 
     else:
-        # Is a person_not_found page better, or should we redirect to something more useful?
+        # Is a person_not_found page better, or should we redirect to something
+        # more useful?
         # return render_template("person_not_found.html", person_id=id)
 
         flash(f"Could not find a person with this ID: {id}")
@@ -80,7 +81,10 @@ def listpersons():
 def helloworldcli(person_id):
 
     if person_id is None:
-        print("ERROR: No ID specified. Please try again and specify a numerical ID.\n")
+        print(
+            "ERROR: No ID specified. " + 
+            "Please try again and specify a numerical ID.\n"
+        )
         return 1
 
     elif person_id < 0:
@@ -97,9 +101,12 @@ def helloworldcli(person_id):
     return 0
 
 
-@click.command("add-demo-users", help="Add two users to start the demo: Bob and Alice.")
+@click.command(
+    "add-demo-persons", 
+    help="Add two users to start the demo: Bob and Alice."
+)
 @with_appcontext
-def add_demo_users():
+def add_demo_persons():
     session = database.db.session
     bob = Person(firstname="Demo user Bob", lastname="Smith")
     
@@ -121,4 +128,15 @@ def add_demo_users():
         session.add(alice)
         session.commit()
     
-app.cli.add_command(add_demo_users)
+app.cli.add_command(add_demo_persons)
+
+@click.command(
+    "gen-secret-key", 
+    help="generate a random value for the SECRET_KEY configuration variable."
+)
+@with_appcontext
+def generate_secret_key():
+    print(os.urandom(16))
+
+
+app.cli.add_command(generate_secret_key)
