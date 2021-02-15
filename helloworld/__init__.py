@@ -41,7 +41,7 @@ def create_app():
     if not instance_path.exists():
         instance_path.mkdir()
     
-    
+    # Set up the database session using the app's configuration.
     from . import database
     database.init_app(app)
 

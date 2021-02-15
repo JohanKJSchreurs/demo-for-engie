@@ -9,15 +9,15 @@ But for the moment I don't have the knowledge to deploy it on those platforms (y
 So I will leave that out for now. Perhaps if I have time at the end I will try to deploy the demo after all.
 
 What you find in this manual
+
 - Installation instructions
 - How to launch the application
 
 ## Project structure
 
 - docs: the documentation
-- docker: files for deployment with docker
 - helloworld: the source code of the hello world application itself
-- tests: unit tests 
+- tests: unit tests
 - scripts: some tools to help with launching the app, and tools for development.
 
 So the unit tests and the application are kept in a separate folders. 
