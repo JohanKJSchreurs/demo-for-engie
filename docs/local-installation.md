@@ -33,15 +33,23 @@ URL: [https://flask.palletsprojects.com/en/1.1.x/installation/](https://flask.pa
 
 ## Install Flask and all the applications dependencies
 
-Install all dependencies with pip, via the provided pip requirements file, `requirements.txt`.
+Install the dependencies with pip, via one of the provided pip requirements files, 
 
-This file is located at the root folder of the project, in other words at the root of the git repository that you cloned from GitHub.
+There is a file for the common dependencies that are enough for the Flask container / production:
+`requirements.txt`.
+And there is `dev-requirements.txt` which includes a few extra tools for development.
+
+Both requirements files are located at the root folder of the project, in other words at the root of the git repository that you cloned from GitHub.
 
 1. In your terminal, change directory to the root of the project folder.
 
 2. Then run:
 
     python -m pip install -r requirements.txt
+    
+    # OR for a development environment
+
+    python -m pip install -r dev-requirements.txt
 
 
 ## setup your config file

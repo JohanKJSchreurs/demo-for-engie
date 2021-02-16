@@ -2,30 +2,38 @@
 
 This is a simple hello-world app implemented in Flask for a demo.
 
-## Quick Start
+## Quick Start Guide
 
-Get the web application up and running with docker-compose:
+Also available in the documentation folder `docs`, [here: Quick Start Guide](quick-start.md)
+
+Here is the TL;DR version, but please *do* read the [Quick Start Guide](quick-start.md) because it explains much better how to launch and use the application.
+
+1. Change directory to the root of the project (i.e. this git repository)
+
+2. Run docker-compose up
 
 ```bash
 docker-compose up
 ```
 
-Then open the following URL in your web browser: [http://localhost:5000](http://localhost:5000)
+The CLI command is integrated in flask.
 
-At startup there are two demo users in the database to make it easier to start testing.
-
-The navigation menu at the top has no style to make it look nice but it contains 
-
-- a link to the [Admin application](http://localhost:5000/Admin)
-- a link to the home page
-- a link to a page that shows the first 10 users and the link to the page for their "greeting".
-
-The person objects have the following fields:
-
-- a numerical ID which is a database sequence,
-- a firstname which is a mandatory column/field,
-- an optional lastname field.
+For instructions see: [docs\helloworld-cli.md](docs\helloworld-cli.md)
 
 ## Documentation
 
 See [docs/index.md](docs/index.md)
+
+## Project structure
+
+- docs: the documentation
+- helloworld: the source code of the hello world application itself
+- tests: unit tests
+- scripts: some tools to help with launching the app, and tools for development.
+- Docker:
+  - Dockerfile: defines the main container, for the Flask app `helloworld`.
+  - postgres.dockerfile: for the Postgres container, so it can include database initialization
+  - docker-compose.yml: so you can start the all services with `docker-compose up`
+- requirements to install the dependencies with pip:
+  - requirements.txt: the main dependencies for the Flask app (production) without developer tools
+  - dev-requirements.txt: extra tools that are only needed in a development environment: mkdocs, pylint, ...

@@ -1,2 +1,9 @@
 site_name: Demo Flask app for Engie GEM
 
+nav:
+    - Overview: index.md
+    - Quick Start: quick-start.md
+    - Command Line Interface for Hello World: helloworld-cli.md
+    - Local Installation: local-installation.md
+    - README: ../README.md
+theme: readthedocs
