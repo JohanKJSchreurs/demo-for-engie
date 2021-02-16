@@ -45,11 +45,13 @@ Both requirements files are located at the root folder of the project, in other 
 
 2. Then run:
 
-    python -m pip install -r requirements.txt
-    
-    # OR for a development environment
+```
+python -m pip install -r requirements.txt
 
-    python -m pip install -r dev-requirements.txt
+# OR for a development environment
+
+python -m pip install -r dev-requirements.txt
+```
 
 ## Set up the config.py file for Flask
 

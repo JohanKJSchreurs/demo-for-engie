@@ -11,20 +11,22 @@ Steps to launch the web application with docker-compose:
 
 ### Step 2: Make sure git did not convert the End-of-Line characters of the DB initialisation script
 
-Check that the following database initialization script for the PostgreSQL container is effectively using Linux/Unix End-of-Line characters, not the Windows EOL
-
-Windows uses two characters for the end of a line: a newline plus a carriage return. But the windows EOL may cause this script to fail.
-
 Git may convert Linux EOLs into Windows EOLs automatically when you pull and push from GitHub, if you have configured Git that way.
 
-So check this script, and if is is using Windows End-of-Lines, convert the EOL to Linux and save it.
+Windows uses two characters for the end of a line: a newline plus a carriage return. But the windows EOL may cause this script to fail. This in turn means there helloworld database and the helloworld DB user won't be created, leading to errors.
+
+You need to check that the following database initialization script is effectively using Linux/Unix End-of-Line characters, not the Windows EOL:
 
 `demo-for-engie\scripts\postgres\1-init-user-db.sh`
 
+If is is using Windows End-of-Lines, convert the EOL to Linux and save it. That should prevent the errors.
+
 > **TO DO: things to improve:**
-> 
-> - TODO: 1) Change my git to not cause this problem anymore.
-> - TODO: 2) Consider adding a sed script to remove the carriage return characters if this has happened.
+>
+> - TODO: 1) Change my git configuration so it keeps Linux EOLs and Windows EOLs they way they are.
+> - TODO: 2) Consider adding a sed script to the dockerfile in order to remove the carriage return characters.
+
+If the error occurs after all, this guide describes how to fix the problem: [troubleshooting.md](troubleshooting.md)
 
 ### Step 3: Run docker-compose up
 
@@ -34,7 +36,7 @@ docker-compose up
 
 In the output of `docker-compose up ` you should see some output about the postgres database and tables being created, similar to this;
 
-Note in particular the line for the initialization script:
+Note in particular the line for the initialization script that we mentioned above. It only needs to run the first time you launch the PostrgreSQL container but if it doesn't run you won't have the necessary database and database user.:
 
 `/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/1-init-user-db.sh`
 
@@ -95,6 +97,21 @@ postgres_1  | (1 row)
 ... and os on
 
 ```
+
+You should see this output from docker-compose the first time you start the PostgreSQL container. (It only needs to happen during the first run)
+
+When the helloworld database is not present, then you may encounter the error below, when you start the app for the first time.
+This would happen when you open the page `http://localhost:5000/listpersons` because that needs to retrieve data from the `person` table.
+
+```
+sqlalchemy.exc.OperationalError
+sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) FATAL:  password authentication failed for user "helloworld"
+
+(Background on this error at: http://sqlalche.me/e/13/e3q8)
+```
+![sqlalchemy.exc.OperationalError](images\sqlalchemy-operationalerror.png)
+
+Instructions how to fix this problem can be found in: [troubleshooting.md](troubleshooting.md)
 
 ## How to launch the Command Line Application
 
