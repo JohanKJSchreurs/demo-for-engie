@@ -12,10 +12,10 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 #
-# I switched to using a volumne linked to my local code, for easier development and demonstration.
+# I switched to using a volume linked to my local code, for easier development and demonstration.
 # For production we would need to copy the following:
 #
+# COPY example-config/example_config.py /app/instance/config.py
 # COPY helloworld /app/helloworld
-# COPY example_config/example_config.py /app/instance/config.py
 
 CMD ["flask", "run"]

@@ -23,7 +23,6 @@ services:
     # We could probably use GUnicorn to run the Flask part in this container 
     # and then put a proxy such as ngnix in front of it with a second container.
     environment:
-      #FLASK_ENV: production
       FLASK_ENV: development
     
     depends_on:
@@ -33,7 +32,6 @@ services:
     build: 
       context: .
       dockerfile: postgres.dockerfile
-    #image: postgres:13.2
     restart: always
     environment:
       POSTGRES_PASSWORD: example
