@@ -1,6 +1,5 @@
 """The application factory is in here."""
 import os
-import pathlib
 
 from flask import Flask, render_template, redirect, abort, request, session, url_for, g
 
@@ -24,20 +23,18 @@ def create_app():
     #   app.config.from_pyfile(os.environ['YOURAPPLICATION_SETTINGS'])
     #
 
-    instance_config_path = os.path.join(app.instance_path, "config.py")
-    
     app.config.from_mapping(
         # This is a default. SECRET_KEY should be configured in config.py
         # with a proper randomly generated value.
         SECRET_KEY="someRandomStuff_for_development!1sdf2s1d4szrf",
     )
 
-    app.config.from_pyfile(instance_config_path)
-
-    # Ensure the instance folder exists
-    instance_path = pathlib.Path(app.instance_path)
-    if not instance_path.exists():
-        instance_path.mkdir()
+    instance_config_path = os.path.join(app.instance_path, "config.py")
+    if os.path.exists(instance_config_path):
+        app.config.from_pyfile(instance_config_path)
+    else:
+        # Ensure the instance folder exists
+        os.makedirs(instance_config_path)
     
     # Set up the database session using the app's configuration.
     from . import database
