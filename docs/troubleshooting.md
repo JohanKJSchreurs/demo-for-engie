@@ -53,7 +53,7 @@ CREATE ROLE
 2. Create the database helloworld:
 
 ```
-docker exec -ti demo-for-engie_postgres_1 psql -U postgres -c "CREATE DATABASE helloworld2;"
+docker exec -ti demo-for-engie_postgres_1 psql -U postgres -c "CREATE DATABASE helloworld;"
 ```
 
 Expected output
@@ -74,7 +74,7 @@ Expected output
 GRANT
 ```
 
-4. Next, use the `flask init-db` command on the web container to create the database
+4. Next, use the `flask init-db` command on the web container to create the database table `person`.
 
 ```
 docker exec -ti demo-for-engie_web_1 flask init-db
@@ -86,7 +86,7 @@ Expected output
 Initialized the database
 ```
 
-If you also want the demo persons do the same for the command `flask add-demo-persons`
+**Optional:** If you also want to have the demo persons do the same for the command `flask add-demo-persons`
 
 ```
 docker exec -ti demo-for-engie_web_1 flask add-demo-persons
