@@ -44,3 +44,16 @@ Markdown documentation is converted to HTML with [MkDocs](https://www.mkdocs.org
 (i.e. without a Docker container)
 
 [How to create a local development environment](local-installation.md)
+
+## Troubleshooting
+
+I have discovered there may be an issue with the database initialization script `scripts\postgres\1-init-user-db.sh`.
+
+When you clone the git repository git may convert Unix's End of Line character `\n`, to the Windows convention of having two characters: `\n\r`.
+This trips up the script in the Docker container for the postgres service.
+
+The script runs in a Linux container. But git may convert the linux EOL characters which are a single \n into the Windows convention of having two characters for a newline and carriage return \n\r.
+
+This page describes how to solve it:
+
+[Troublshooting Guide](troubleshooting.md)
