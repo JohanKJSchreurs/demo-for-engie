@@ -1,3 +1,4 @@
+"""The application factory is in here."""
 import os
 import pathlib
 
@@ -5,6 +6,7 @@ from flask import Flask, render_template, redirect, abort, request, session, url
 
 
 def create_app():
+    """Flask application factory: creates and configures the app."""
 
     app = Flask(__name__, instance_relative_config=True)
     
@@ -21,20 +23,16 @@ def create_app():
     # Which is equivalent to:
     #   app.config.from_pyfile(os.environ['YOURAPPLICATION_SETTINGS'])
     #
-    
-    # # default_db_path = pathlib.Path(app.instance_path) / "helloworld.sqlite"
-    # default_db_path = os.path.join(app.instance_path, "helloworld.sqlite")
-    # print(f"default_db_path={default_db_path}")
 
     instance_config_path = os.path.join(app.instance_path, "config.py")
     
     app.config.from_mapping(
-        # SECRET_KEY should be configured in config.py with a proper randomly generated value.
+        # This is a default. SECRET_KEY should be configured in config.py
+        # with a proper randomly generated value.
         SECRET_KEY="someRandomStuff_for_development!1sdf2s1d4szrf",
     )
 
-    # TODO: Do we really need silent=True?
-    app.config.from_pyfile(instance_config_path) # , silent=True)
+    app.config.from_pyfile(instance_config_path)
 
     # Ensure the instance folder exists
     instance_path = pathlib.Path(app.instance_path)

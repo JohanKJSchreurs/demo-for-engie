@@ -1,3 +1,5 @@
+"""The views and CLI commands for the helloworld app."""
+
 import os
 
 import click
@@ -21,12 +23,15 @@ app = create_app()
 #
 
 class PersonModelView(ModelView):
+    """Customized ModelView for Person in the Admin app."""
+
     # Also show the ID, in case we have people with the same name.
     column_list = ("id", "firstname", "lastname")
     can_view_details = True
     
     # To make columns searchable, or to use them for filtering:
     column_searchable_list = ["firstname", "lastname", "id"]
+
 
 admin = Admin(app, name="helloworld", template_mode="bootstrap3")
 
@@ -41,21 +46,23 @@ admin.add_view(PersonModelView(Person, database.db.session))
 # TODO: Maybe the home page should show some basic instruction how to use the app, if there is anything to explain.
 @app.route("/")
 def home():
-    return render_template("hello.html", name="world")
+    """The view for the home page"""
+    return render_template("home.html")
 
 
 @app.route("/hello-world/<int:id>")
 def hello(id):
+    """The view for the Hello <name> greeting
+
+    :parameter id: the ID of the person in the database.
+
+    """
 
     if person_id_exists(id):
         person = get_person_by_id(id)
         return render_template("hello.html", greeting=get_greeting(person))
 
     else:
-        # Is a person_not_found page better, or should we redirect to something
-        # more useful?
-        # return render_template("person_not_found.html", person_id=id)
-
         flash(f"Could not find a person with this ID: {id}")
         return redirect(url_for("listpersons"))
 
@@ -66,9 +73,10 @@ def get_greeting(person: Person):
 
 @app.route("/listpersons")
 def listpersons():
-    """Shows a short list of persons with a link to click to their greeting page.
+    """View that shows a short list of persons, with a link to click to their greeting page.
     
-    This makes it easy to get started, and check the hello-world view above
+    This makes it easier to start testing the application, by giving you some
+    links you can click in order to check the hello view for a few persons.
     """
 
     persons = Person.query.limit(10).all()
@@ -79,6 +87,8 @@ def listpersons():
 @click.argument("person_id", type=click.INT)
 @with_appcontext
 def helloworldcli(person_id):
+    """The command on the CLI that shows the 'hello <name>" message for the specified ID.
+    """
 
     if person_id is None:
         print(
@@ -100,6 +110,7 @@ def helloworldcli(person_id):
         
     return 0
 
+# Make it available as a subcommand of `flask`
 app.cli.add_command(helloworldcli)
 
 
@@ -109,6 +120,11 @@ app.cli.add_command(helloworldcli)
 )
 @with_appcontext
 def add_demo_persons():
+    """Add two demo persons to get started, Bob and Alice.
+
+    If they already exist we will skip creating the persons that already exist.
+    """
+
     session = database.db.session
     bob = Person(firstname="Demo user Bob", lastname="Smith")
     
@@ -129,8 +145,11 @@ def add_demo_persons():
         print(f"Creating {alice.firstname} in the database")
         session.add(alice)
         session.commit()
-    
+
+
+# Make it available as a subcommand of `flask`
 app.cli.add_command(add_demo_persons)
+
 
 @click.command(
     "gen-secret-key", 
@@ -138,7 +157,9 @@ app.cli.add_command(add_demo_persons)
 )
 @with_appcontext
 def generate_secret_key():
+    """Generate a new key suitable for the SECRET_KEY configuration variable."""
     print(os.urandom(16))
 
 
+# Make it available as a subcommand of `flask`
 app.cli.add_command(generate_secret_key)
