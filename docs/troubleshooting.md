@@ -1,4 +1,4 @@
-# Troubleshooting guid
+# Troubleshooting Guide
 
 ## Error: password authentication failed for user "helloworld"
 

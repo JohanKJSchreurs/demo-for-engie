@@ -7,12 +7,93 @@ the easiest way to launch it.
 
 Steps to launch the web application with docker-compose:
 
-1. Change directory to the root of the project (i.e. this git repository) 
+### Step 1: Change directory to the root of the project (i.e. this git repository) 
 
-2. Run docker-compose up
+### Step 2: Make sure git did not convert the End-of-Line characters of the DB initialisation script
+
+Check that the following database initialization script for the PostgreSQL container is effectively using Linux/Unix End-of-Line characters, not the Windows EOL
+
+Windows uses two characters for the end of a line: a newline plus a carriage return. But the windows EOL may cause this script to fail.
+
+Git may convert Linux EOLs into Windows EOLs automatically when you pull and push from GitHub, if you have configured Git that way.
+
+So check this script, and if is is using Windows End-of-Lines, convert the EOL to Linux and save it.
+
+`demo-for-engie\scripts\postgres\1-init-user-db.sh`
+
+> **TO DO: things to improve:**
+> 
+> - TODO: 1) Change my git to not cause this problem anymore.
+> - TODO: 2) Consider adding a sed script to remove the carriage return characters if this has happened.
+
+### Step 3: Run docker-compose up
 
 ```bash
 docker-compose up
+```
+
+In the output of `docker-compose up ` you should see some output about the postgres database and tables being created, similar to this;
+
+Note in particular the line for the initialization script:
+
+`/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/1-init-user-db.sh`
+
+Expected output of `docker-compose up ` :
+
+```
+
+... stuff before the important bit
+
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/1-init-user-db.sh
+postgres_1  | CREATE ROLE
+postgres_1  | CREATE DATABASE
+postgres_1  | GRANT
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  |  set_config
+postgres_1  | ------------
+postgres_1  |
+postgres_1  | (1 row)
+postgres_1  |
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | CREATE TABLE
+postgres_1  | CREATE SEQUENCE
+postgres_1  | ALTER SEQUENCE
+postgres_1  | ALTER TABLE
+postgres_1  | ALTER TABLE
+web_1       |  * Debugger is active!
+web_1       |  * Debugger PIN: 325-509-346
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  |  set_config
+postgres_1  | ------------
+postgres_1  |
+postgres_1  | (1 row)
+postgres_1  |
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | SET
+postgres_1  | COPY 2
+postgres_1  |  setval
+postgres_1  | --------
+postgres_1  |       2
+postgres_1  | (1 row)
+
+
+... and os on
+
 ```
 
 ## How to launch the Command Line Application
