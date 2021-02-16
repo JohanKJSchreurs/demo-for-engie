@@ -1,4 +1,4 @@
-# How to create a local development environment (i.e. without Docker)
+# How to create a virtualenv development environment (i.e. without Docker)
 
 These are setup instructions for when you want to work on the application outside of a Docker container, directly on your system.
 
@@ -51,8 +51,7 @@ Both requirements files are located at the root folder of the project, in other 
 
     python -m pip install -r dev-requirements.txt
 
-
-## setup your config file
+## Set up the config.py file for Flask
 
 We have an example file that you can copy to the instance folder.
 
@@ -76,7 +75,7 @@ Here are corresponding commands for the command line:
 
     cp example-config\example_config.py instance\config.py
 
-## create the database tables
+## Create the database tables
 
 I have added a command the Flask CLI to create the database tables easily.
 
@@ -91,14 +90,5 @@ This adds the following persons:
 - firstname: 'Demo user Bob', lastname: 'Smith'
 - firstname: 'Demo user Alice', lastname: null (deliberately, so we can test with a lastname that is null)
 
-
-It is safe to run `flask add-demo-users` multiple times (which can happen by accident). 
-The users will only be created if it does not exist yet (The check is based on their first name)
-
-As usual, you can see all the available flask commands by running
-
-    flask
-
-Or
-
-    flask --help
+It is safe to run `flask add-demo-users` multiple times (which can sometimes happen by accident).
+The users will only be created if it does not exist yet. The tool only checks the first name in this case, because the names start with "Demo user" anyway.

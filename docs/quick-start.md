@@ -69,8 +69,9 @@ The person objects have the following fields:
 - a `firstname` which is a mandatory column/field,
 - an optional `lastname` field, so you can leave this blank if you want.
 
+#### Commands to setup a new database
 
-In case you want to use another database, say just SQLite for some local developement test:
+In case you want to use another database, say you want a simple SQLite setup for some local developement test:
 
 I added two commands in the flask CLI to setup the database. But for Postgres this is not needed because the container sets it up already.
 
@@ -81,20 +82,18 @@ For a full explanation how to run these, see the section
 `Commands to initialize a database`
 of [Command Line Interface for Hello World](helloworld-cli.md) .
 
+## No domain, only on localhost for now
 
-> **Note:**
->
-> **Only localhost for now**
->
-> I did not have time to setup a proper hostname or to deploy it in the cloud so
-it is won't currently run on the URL in the assignment `http://engie-interview.dev` .
->
-> I currently don't have any knowledge of AWS or other cloud platforms (yet), so I would have to research how to do that.
-> My colleagues pointed me to following procedure with Kubernetes on AWS:
-> 
-> [Deploy Docker Containers](https://aws.amazon.com/getting-started/hands-on/deploy-docker-containers/)
->
-> Alternatively, Heroku or Linode might also be relatively simple solutions for an small app like this one.
+I did not have time to deploy it in the cloud or configre things like DNS or the hostname, the things that would be necessary to redirect to the URL in the assignment, namely: `http://engie-interview.dev` .
+
+At present, that side is not in my current skill set, so I would have to research more how to do that and that takes time.
+I currently don't have any knowledge of AWS or other cloud platforms (not yet, at least).
+
+My colleagues pointed me to following procedure with Kubernetes on AWS:
+
+[Deploy Docker Containers](https://aws.amazon.com/getting-started/hands-on/deploy-docker-containers/)
+
+Alternatively, Heroku or Linode might also be relatively simple solutions for an small app like this one.
 
 ## Containers: Flask, Postgres and Adminer
 
@@ -115,7 +114,7 @@ The docker-compose.yml could be improved for production, this is really a develo
 1. The web container is linking the code into the container as a volume to be able to edit the code and see the result without restarting the container.
   
 2. `flask run` should not be run as the flask server in production, especially not with FLASK_ENV=development.
-   
-   Instead would be better deploy the Flask app with some wsgi technology, Gunicorn might be a good choice.
+
+    Instead would be better deploy the Flask app with some wsgi technology, Gunicorn might be a good choice.
 
 3. In a real application a reverse proxy may be needed, for load balancing and security. Nginx is a common choice for this.

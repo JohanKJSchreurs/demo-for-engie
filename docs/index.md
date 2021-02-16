@@ -13,6 +13,7 @@ See:  [Command Line Interface for Hello World](helloworld-cli.md)
 ### All commands available in the flask CLI
 
 ```
+
 Commands:
   add-demo-persons  Add two users to start the demo: Bob and Alice.
   gen-secret-key    generate a random value for the SECRET_KEY
@@ -23,6 +24,7 @@ Commands:
   routes            Show the routes for the app.
   run               Run a development server.
   shell             Run a shell in the app context.
+
 ```
 
 ## Docker deployment
@@ -37,3 +39,8 @@ So I will leave that out for now. Perhaps if I have time at the end I will try t
 
 Markdown documentation is converted to HTML with [MkDocs](https://www.mkdocs.org/).
 
+## How to install the app in a virtualenv for development
+
+(i.e. without a Docker container)
+
+[How to create a local development environment (i.e. without Docker)](docs\local-installation.md)

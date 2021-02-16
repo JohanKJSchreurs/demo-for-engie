@@ -87,7 +87,8 @@ let you create the person table, and insert two demo persons into it, respective
 
 ### All commands available in the flask CLI
 
-```
+```shell
+
 Commands:
   add-demo-persons  Add two users to start the demo: Bob and Alice.
   gen-secret-key    generate a random value for the SECRET_KEY
@@ -98,4 +99,5 @@ Commands:
   routes            Show the routes for the app.
   run               Run a development server.
   shell             Run a shell in the app context.
+
 ```

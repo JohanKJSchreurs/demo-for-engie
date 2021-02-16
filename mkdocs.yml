@@ -5,5 +5,4 @@ nav:
     - Quick Start: quick-start.md
     - Command Line Interface for Hello World: helloworld-cli.md
     - Local Installation: local-installation.md
-    - README: ../README.md
 theme: readthedocs
