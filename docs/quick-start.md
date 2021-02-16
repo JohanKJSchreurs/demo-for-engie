@@ -42,11 +42,20 @@ docker-compose up
 
 In the output of `docker-compose up ` you should see some output about the postgres database and tables being created, similar to this;
 
-Note in particular the line for the initialization script that we mentioned above. It only needs to run the first time you launch the PostrgreSQL container but if it doesn't run you won't have the necessary database and database user.:
+Note in particular the line for the initialization script that we mentioned above. It only needs to run the first time you launch the PostrgreSQL container but if it doesn't run you won't have the necessary database and database user:
 
 `/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/1-init-user-db.sh`
 
-Expected output of `docker-compose up ` :
+If the output say this you definitely had an error caused by carriage return characters, note the `^M` character:
+
+```
+
+postgres_1  | /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/1-init-user-db.sh
+postgres_1  | /usr/local/bin/docker-entrypoint.sh: /docker-entrypoint-initdb.d/1-init-user-db.sh: /bin/bash^M: bad interpreter: No such file or directory
+
+```
+
+Expected output of `docker-compose up ` when it succeeds to create the database:
 
 ```
 
