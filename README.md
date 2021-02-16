@@ -35,7 +35,7 @@ The script runs in a Linux container. But git may convert the linux EOL characte
 
 This page describes how to solve it:
 
-[Troublshooting Guide](troubleshooting.md)
+[Troublshooting Guide](docs/troubleshooting.md)
 
 ## Project structure
 
