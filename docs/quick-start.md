@@ -43,7 +43,7 @@ These are the links you will find, and what they are for:
 The app need to store names linked to an ID in a database. This is is stored in a database table named `person`, in PostgresSQL.
 
 We also needs an admin app to create, edit and delete new persons.
-This admin application can be accessed via the item in the menu at the top of 
+This admin application can be accessed via the item in the menu at the top of
 the helloworld app.
 
 If you have the app running, here is the link again: [Admin application](http://localhost:5000/admin/)
@@ -71,9 +71,9 @@ The person objects have the following fields:
 
 #### Commands to setup a new database
 
-In case you want to use another database, say you want a simple SQLite setup for some local developement test:
+In case you want to use another database, say you want a simple SQLite setup for some local development test:
 
-I added two commands in the flask CLI to setup the database. But for Postgres this is not needed because the container sets it up already.
+I added two commands in the flask CLI to setup the database. But for PostgreSQL this is not needed because the container sets it up already.
 
 - `flask init-db`: Creates the person table
 - `flask add-demo-persons`  Add two users to start the demo: Bob and Alice.

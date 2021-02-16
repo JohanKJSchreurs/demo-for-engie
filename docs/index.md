@@ -43,4 +43,4 @@ Markdown documentation is converted to HTML with [MkDocs](https://www.mkdocs.org
 
 (i.e. without a Docker container)
 
-[How to create a local development environment (i.e. without Docker)](docs\local-installation.md)
+[How to create a local development environment](local-installation.md)

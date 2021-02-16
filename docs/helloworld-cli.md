@@ -66,7 +66,7 @@ This requires a bit more setup.
 
 This page describes how to set up the virtualenv and how to configure the app
 outside without Docker, locally:
-[docs/local-installation.md](docs/local-installation.md)
+[How to create a virtualenv development environment](local-installation.md)
 
 ## Commands to initialize a database (not needed for PostgreSQL)
 
