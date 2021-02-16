@@ -2,7 +2,7 @@
 
 I have discovered there may be an issue with the database initialization script `scripts\postgres\1-init-user-db.sh`.
 
-This issue is probably caused by the fact that git converts its End-of-Line characters and then the script fails in the postgres container, which does not handle the carriage return characters for some reason.
+This issue is probably caused by the fact that git converts its End-of-Line characters and then the script fails in the postgres container. But the Linux container does not handle the carriage return characters for some reason.
 
 Below is a description of the error you may encounter and how to fix it.
 
@@ -26,15 +26,17 @@ It is the DB initialization script `scripts\postgres\1-init-user-db.sh`. that cr
 
 After that it will proceed to run 2 SQL scripts, one to create the table `person`, and a second script to add two demo users.
 
-
 ### Probable cause of the problem
 
-I have discovered there may be an issue with the database initialization script `scripts\postgres\1-init-user-db.sh`.
+If your git configuration is convert Linux End-of-Line characters (EOLs) into Windows EOLs automatically on a pull or push, you may encounter a problem here.
 
-When you clone the git repository git may convert Unix's End of Line character `\n`, to the Windows convention of having two characters: `\n\r`.
-This trips up the script in the Docker container for the postgres service.
+I could find a better solution to prevent this error if I had more time, but for now you will need to check that you have Linux End-od-Line characters before continuing with the next step.
 
-The script runs in a Linux container. But git may convert the linux EOL characters which are a single \n into the Windows convention of having two characters for a newline and carriage return \n\r.
+I have noticed that carriage return characters cause an important DB initialisation script to fail when the Postgres container launches for the first time.
+
+- The script runs in a Linux container but when the script contains carriage return characters, then the script will fail.
+- This in turn means that the helloworld database and the helloworld DB user won't be created.
+- Finally, when the web application tries to access the database it will get an error because that database does not exist.
 
 ### Quick fix: convert the EoL character, then docker-compose down & up again
 
@@ -63,7 +65,7 @@ docker-compose up
 You can also create the user and database, but there are a few commands to run which is a bit cumbersome. That's why we wanted this to be done automatically in the first place.
 
 
-1. Create the user helloworld
+#### Step 1. Create the user helloworld
 
 ```
 docker exec -ti demo-for-engie_postgres_1 psql -U postgres -c "CREATE USER helloworld WITH PASSWORD 'example'"
@@ -75,7 +77,7 @@ Expected output
 CREATE ROLE
 ```
 
-2. Create the database helloworld:
+#### Step 2. Create the database helloworld
 
 ```
 docker exec -ti demo-for-engie_postgres_1 psql -U postgres -c "CREATE DATABASE helloworld;"
@@ -87,7 +89,7 @@ Expected output
 CREATE DATABASE
 ```
 
-3. Grant all privileges to the user
+#### Step 3. Grant all privileges to the user
 
 ```
 docker exec -ti demo-for-engie_postgres_1 psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE helloworld TO helloworld;"
@@ -99,7 +101,7 @@ Expected output
 GRANT
 ```
 
-4. Next, use the `flask init-db` command on the web container to create the database table `person`.
+#### Step 4. Next, use the `flask init-db` command on the web container to create the database table `person`.
 
 This command is just easier than using psql to create the table.
 
@@ -113,7 +115,11 @@ Expected output
 Initialized the database
 ```
 
-**Optional:** If you also want to have the demo persons do the same for the command `flask add-demo-persons`
+#### Optional Step 5: add demo persons
+
+**Optional:**
+
+If you also want to have the demo persons do the same for the command `flask add-demo-persons`
 
 ```
 docker exec -ti demo-for-engie_web_1 flask add-demo-persons

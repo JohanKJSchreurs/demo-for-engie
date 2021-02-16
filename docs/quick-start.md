@@ -5,30 +5,36 @@
 The web application is deployable with a docker-compose.yml file, and that is 
 the easiest way to launch it.
 
-Steps to launch the web application with docker-compose:
+### Steps to launch the web application with docker-compose
 
-### Step 1: Change directory to the root of the project (i.e. this git repository) 
+#### Step 1: Change directory to the root of the project (i.e. this git repository) 
 
-### Step 2: Make sure git did not convert the End-of-Line characters of the DB initialisation script
+#### Step 2: Check that git did not convert the End-of-Line characters of the DB initialisation script
 
-Git may convert Linux EOLs into Windows EOLs automatically when you pull and push from GitHub, if you have configured Git that way.
+If your git configuration is convert Linux End-of-Line characters (EOLs) into Windows EOLs automatically on a pull or push, you may encounter a problem later on.
 
-Windows uses two characters for the end of a line: a newline plus a carriage return. But the windows EOL may cause this script to fail. This in turn means there helloworld database and the helloworld DB user won't be created, leading to errors.
+If I had more time I could find a better solution to *prevent* this error, but for now you will need to check something before continuing with the next step.
 
-You need to check that the following database initialization script is effectively using Linux/Unix End-of-Line characters, not the Windows EOL:
+I have noticed that carriage return characters cause an important DB initialisation script to fail when the Postgres container launches for the first time.
+
+- The script runs in a Linux container but when the script contains carriage return characters, then the script will fail.
+- This in turn means that the helloworld database and the helloworld DB user won't be created.
+- Finally, when the web application tries to access the database it will get an error because that database does not exist.
+
+Therefore tou need to check that the following database initialization script is effectively using Linux End-of-Line characters (Line Feed), not the Windows EOL (Line Feed + Carriage Return):
 
 `demo-for-engie\scripts\postgres\1-init-user-db.sh`
 
 If is is using Windows End-of-Lines, convert the EOL to Linux and save it. That should prevent the errors.
+
+If the error occurs after all, this guide describes how to fix the problem: [troubleshooting.md](troubleshooting.md)
 
 > **TO DO: things to improve:**
 >
 > - TODO: 1) Change my git configuration so it keeps Linux EOLs and Windows EOLs they way they are.
 > - TODO: 2) Consider adding a sed script to the dockerfile in order to remove the carriage return characters.
 
-If the error occurs after all, this guide describes how to fix the problem: [troubleshooting.md](troubleshooting.md)
-
-### Step 3: Run docker-compose up
+#### Step 3: Run docker-compose up
 
 ```bash
 docker-compose up
