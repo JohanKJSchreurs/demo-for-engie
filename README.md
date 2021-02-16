@@ -28,12 +28,12 @@ See [docs/index.md](docs/index.md)
 
 - docs: the documentation
 - helloworld: the source code of the hello world application itself
-- tests: unit tests
+- tests: where I would put unit tests, but in the end I did not have time.
 - scripts: some tools to help with launching the app, and tools for development.
 - Docker:
   - Dockerfile: defines the main container, for the Flask app `helloworld`.
   - postgres.dockerfile: for the Postgres container, so it can include database initialization
   - docker-compose.yml: so you can start the all services with `docker-compose up`
 - requirements to install the dependencies with pip:
-  - requirements.txt: the main dependencies for the Flask app (production) without developer tools
-  - dev-requirements.txt: extra tools that are only needed in a development environment: mkdocs, pylint, ...
+  - requirements.txt: the main dependencies for the Flask app without developer tools
+  - dev-requirements.txt: extra tools that are only needed in a development environment: mkdocs, pytest, ...
