@@ -7,32 +7,39 @@ the easiest way to launch it.
 
 ### Steps to launch the web application with docker-compose
 
-#### Step 1: Change directory to the root of the project (i.e. this git repository) 
+#### Step 1: Change directory to the root of the project (i.e. this git repository)
 
 #### Step 2: Check that git did not convert the End-of-Line characters of the DB initialisation script
 
-If your git configuration is convert Linux End-of-Line characters (EOLs) into Windows EOLs automatically on a pull or push, you may encounter a problem later on.
+> **UPDATE:**
+>
+> In the mean time, I found a fix to prevent the problem. If you use the latest version (v1.0) this error should no longer occur.
+>
+> But I am keeping the instructions to fix the problem in case we need them after all. Perhaps my update came after you already cloned the git repository.
 
-If I had more time I could find a better solution to *prevent* this error, but for now you will need to check something before continuing with the next step.
+If your git configuration converts Linux End-of-Line characters (EOLs) into Windows EOLs automatically, you may encounter a problem later on.
 
-I have noticed that carriage return characters cause an important DB initialisation script to fail when the Postgres container launches for the first time.
+In the end I found a solution to remove the carriage returns that should prevent this error. I you still have the error, then you will need to check a file before continuing with the next step.
+
+##### What is the issue?
+
+I have noticed that carriage return characters cause an important DB initialisation script to fail when the Postgres container launches for the first time. The carriage returns were introduced by git when I cloned into a fresh new folder for testing.
 
 - The script runs in a Linux container but when the script contains carriage return characters, then the script will fail.
 - This in turn means that the helloworld database and the helloworld DB user won't be created.
 - Finally, when the web application tries to access the database it will get an error because that database does not exist.
 
-Therefore tou need to check that the following database initialization script is effectively using Linux End-of-Line characters (Line Feed), not the Windows EOL (Line Feed + Carriage Return):
+#### How to fix it
+
+You need to check that the following database initialization script is effectively using Linux End-of-Line characters (Line Feed), not the Windows EOL (Line Feed + Carriage Return):
 
 `demo-for-engie\scripts\postgres\1-init-user-db.sh`
 
 If is is using Windows End-of-Lines, convert the EOL to Linux and save it. That should prevent the errors.
 
-If the error occurs after all, this guide describes how to fix the problem: [troubleshooting.md](troubleshooting.md)
+I added a step to the PostgreSQL Dockerfile so it removes the carriage return characters before it runs the script. That should prevent this problem, in version 1.0.
 
-> **TO DO: things to improve:**
->
-> - TODO: 1) Change my git configuration so it keeps Linux EOLs and Windows EOLs they way they are.
-> - TODO: 2) Consider adding a sed script to the dockerfile in order to remove the carriage return characters.
+If the error occurs after all, this guide describes how to get around this problem by setting up the database yourself: [troubleshooting.md](troubleshooting.md)
 
 #### Step 3: Run docker-compose up
 
@@ -40,13 +47,21 @@ If the error occurs after all, this guide describes how to fix the problem: [tro
 docker-compose up
 ```
 
-In the output of `docker-compose up ` you should see some output about the postgres database and tables being created, similar to this;
+In the output of `docker-compose up ` you should see that the postgres database and tables are being created, see the example below.
 
-Note in particular the line for the initialization script that we mentioned above. It only needs to run the first time you launch the PostrgreSQL container but if it doesn't run you won't have the necessary database and database user:
+Pay attention in particular to the line for the initialization script that we mentioned above. It only needs to run the first time you launch the PostrgreSQL container but if it doesn't run you won't have the necessary database and database user.
+
+This is the line in question:
 
 `/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/1-init-user-db.sh`
 
-If the output say this you definitely had an error caused by carriage return characters, note the `^M` character:
+If the output says:
+
+`/bin/bash^M: bad interpreter: No such file or directory`
+
+then definitely had an error caused by carriage return characters, note the `^M` character:
+
+Example output, this one has the error:
 
 ```
 
@@ -55,11 +70,11 @@ postgres_1  | /usr/local/bin/docker-entrypoint.sh: /docker-entrypoint-initdb.d/1
 
 ```
 
-Expected output of `docker-compose up ` when it succeeds to create the database:
+Expected output of `docker-compose up ` on success, when it succeeds to create the database:
 
 ```
 
-... stuff before the important bit
+# ... leaving out output before the important bit
 
 /usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/1-init-user-db.sh
 postgres_1  | CREATE ROLE
@@ -109,14 +124,14 @@ postgres_1  |       2
 postgres_1  | (1 row)
 
 
-... and os on
+...
 
 ```
 
-You should see this output from docker-compose the first time you start the PostgreSQL container. (It only needs to happen during the first run)
+You should see this output above the first time you start the PostgreSQL container. It only needs to happen during the first run.
 
-When the helloworld database is not present, then you may encounter the error below, when you start the app for the first time.
-This would happen when you open the page `http://localhost:5000/listpersons` because that needs to retrieve data from the `person` table.
+When the helloworld database is not present, then you may see the error below in the web application, when you start the app for the first time.
+This would happen especially when you open the page `http://localhost:5000/listpersons` because that needs to retrieve data from the `person` table.
 
 ```
 sqlalchemy.exc.OperationalError

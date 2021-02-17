@@ -14,6 +14,12 @@ Here is the TL;DR version, but please *do* read the [Quick Start Guide](docs/qui
     
     This is the script in question: `scripts\postgres\1-init-user-db.sh`.
     See the [Quick Start Guide](docs/quick-start.md) for details.
+    
+    > **UPDATE:**
+    >
+    > In the mean time, I found a fix to prevent the problem. If you use the latest version (v1.0) this error should no longer occur.
+    >
+    > But I am keeping the instructions to fix the problem in case we need them after all.
 
 3. Run docker-compose up
 
